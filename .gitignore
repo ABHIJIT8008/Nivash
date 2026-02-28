@@ -1,0 +1,8 @@
+# Ignore Node Modules in all subfolders
+**/node_modules/
+
+# Ignore Environment Variables in all subfolders
+**/.env
+
+# Ignore Expo/React Native build files
+**/.expo/
