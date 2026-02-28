@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios with a custom config
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Pointing to our Node backend
+  baseURL: 'https://nivash-backend-api.onrender.com/api', // Pointing to our Node backend
 });
 
 // Add an interceptor to inject the JWT token into the headers of every request
