@@ -10,16 +10,22 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// --- THE CLOUD CORS FIX ---
+app.use(cors({
+  origin: "*", // Allows Vercel and Expo to connect
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // --- WRAP EXPRESS IN HTTP SERVER ---
 const server = http.createServer(app);
 
-// --- INITIALIZE SOCKET.IO ---
+// --- INITIALIZE SOCKET.IO WITH CORS ---
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow our mobile app and web panel to connect
-    methods: ["GET", "POST"]
+    origin: "*", 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
   }
 });
 
@@ -39,7 +45,6 @@ io.on('connection', (socket) => {
 });
 
 // --- MAKE 'io' AVAILABLE TO OUR API ROUTES ---
-// This is a senior dev trick! It lets us trigger socket events from inside our controllers.
 app.set('socketio', io); 
 
 // Routes
@@ -70,7 +75,6 @@ app.use('/api/parcels', parcelRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-// --- REPLACE app.listen WITH server.listen ---
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
