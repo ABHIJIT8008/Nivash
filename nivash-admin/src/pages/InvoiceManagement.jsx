@@ -18,7 +18,7 @@ const InvoiceManagement = () => {
   const fetchInvoices = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const { data } = await axios.get('http://localhost:5000/api/invoices', {
+      const { data } = await axios.get('https://nivash-backend-api.onrender.com/api/invoices', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setInvoices(data);
@@ -34,7 +34,7 @@ const InvoiceManagement = () => {
     setGenerating(true);
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.post('http://localhost:5000/api/invoices/bulk', bulkData, {
+      await axios.post('https://nivash-backend-api.onrender.com/api/invoices/bulk', bulkData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -54,7 +54,7 @@ const InvoiceManagement = () => {
     
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.put(`http://localhost:5000/api/invoices/${id}/status`, 
+      await axios.put(`https://nivash-backend-api.onrender.com/api/invoices/${id}/status`, 
         { status: 'Paid' },
         { headers: { Authorization: `Bearer ${token}` }}
       );

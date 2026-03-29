@@ -7,7 +7,7 @@ const EmergencySiren = () => {
   useEffect(() => {
     // 1. Connect to our local backend
     // (Remember to change this to your Render URL when you deploy!)
-    const socket = io('http://localhost:5000',{
+    const socket = io('https://nivash-backend-api.onrender.com',{
       transports: ['websocket', 'polling'], 
       withCredentials: true,
     });

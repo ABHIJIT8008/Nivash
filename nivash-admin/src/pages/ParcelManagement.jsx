@@ -24,7 +24,7 @@ const ParcelManagement = () => {
   const fetchParcels = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const { data } = await axios.get('http://localhost:5000/api/parcels', {
+      const { data } = await axios.get('https://nivash-backend-api.onrender.com/api/parcels', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setParcels(data);
@@ -38,7 +38,7 @@ const ParcelManagement = () => {
   const fetchFlats = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const { data } = await axios.get('http://localhost:5000/api/flats', {
+      const { data } = await axios.get('https://nivash-backend-api.onrender.com/api/flats', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setFlats(data);
@@ -53,7 +53,7 @@ const ParcelManagement = () => {
     setLogging(true);
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.post('http://localhost:5000/api/parcels', newParcel, {
+      await axios.post('https://nivash-backend-api.onrender.com/api/parcels', newParcel, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -74,7 +74,7 @@ const ParcelManagement = () => {
     setVerifying(true);
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.put(`http://localhost:5000/api/parcels/${selectedParcel._id}/verify`, 
+      await axios.put(`https://nivash-backend-api.onrender.com/api/parcels/${selectedParcel._id}/verify`, 
         { otp: otpInput },
         { headers: { Authorization: `Bearer ${token}` }}
       );
