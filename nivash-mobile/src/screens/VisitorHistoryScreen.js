@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   Image,
   SafeAreaView,
-  Alert, // <-- Added Alert
+  Alert, 
   TouchableOpacity,
   RefreshControl,
 } from "react-native";

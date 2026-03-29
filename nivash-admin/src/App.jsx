@@ -7,29 +7,32 @@ import Helpdesk from './pages/Helpdesk';
 import NoticeBoard from './pages/NoticeBoard';
 import MasterVisitorLog from './pages/MasterVisitorLog';
 import AdminLayout from './components/AdminLayout';
-
-// Import our pages
+import PollManagement from './pages/PollManagement';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import EmergencySiren from './components/EmergencySiren';
+import ParcelManagement from './pages/ParcelManagement';
+import InvoiceManagement from './pages/InvoiceManagement';
 
-// A "Bouncer" component to protect private routes
+
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useContext(AuthContext);
 
-  if (loading) return <div>Loading...</div>; // Wait while we check LocalStorage
+  if (loading) return <div>Loading...</div>; 
   
-  // If no admin is logged in, kick them back to the login page
   if (!admin) {
     return <Navigate to="/login" replace />;
   }
 
-  // Otherwise, let them see the page
   return children;
 };
 
 function App() {
   return (
     <Router>
+      {/* 🚨 THE SIREN LISTENER IS ACTIVE HERE 🚨 */}
+      <EmergencySiren />
+      
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<Login />} />
@@ -96,6 +99,39 @@ function App() {
             <ProtectedRoute>
               <AdminLayout>
                 <MasterVisitorLog />
+              </AdminLayout>
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/polls" 
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <PollManagement />
+              </AdminLayout>
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/parcels" 
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <ParcelManagement />
+              </AdminLayout>
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/invoices" 
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <InvoiceManagement />
               </AdminLayout>
             </ProtectedRoute>
           } 

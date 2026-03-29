@@ -7,8 +7,10 @@ import {
   IoPeopleOutline, 
   IoMegaphoneOutline, 
   IoBuildOutline, 
-  IoLogOutOutline 
-} from 'react-icons/io5'; // Using Ionicons to match your mobile app!
+  IoLogOutOutline,
+  IoBarChartOutline,
+  IoCubeOutline // <-- Added the Cube icon for parcels!
+} from 'react-icons/io5'; 
 
 const AdminLayout = ({ children }) => {
   const { admin, logout } = useContext(AuthContext);
@@ -20,7 +22,10 @@ const AdminLayout = ({ children }) => {
     { name: 'Pre-Seed Users', path: '/pre-seed', icon: <IoPeopleOutline size={20} /> },
     { name: 'Notice Board', path: '/notice-board', icon: <IoMegaphoneOutline size={20} /> },
     { name: 'Helpdesk', path: '/helpdesk', icon: <IoBuildOutline size={20} /> },
-    { name: 'Visitor Log', path: '/visitor-log', icon: <IoPeopleOutline size={20} /> }, // Can use a clipboard icon too
+    { name: 'Visitor Log', path: '/visitor-log', icon: <IoPeopleOutline size={20} /> },
+    { name: 'Community Polls', path: '/polls', icon: <IoBarChartOutline size={20} /> },
+    { name: 'Gate Parcels', path: '/parcels', icon: <IoCubeOutline size={20} /> },
+    { name: 'Invoice Management', path: '/invoices', icon: <IoCubeOutline size={20} /> },
   ];
 
   return (

@@ -2,8 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
-
-// --- NEW IMPORTS FOR SOCKET.IO ---
 const http = require('http'); 
 const { Server } = require('socket.io');
 
@@ -52,6 +50,10 @@ const flatRoutes = require('./routes/flatRoutes');
 const visitorRoutes = require('./routes/visitorRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const noticeRoutes = require('./routes/noticeRoutes');
+const pollRoutes = require('./routes/pollRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
+const emergencyRoutes = require('./routes/emergencyRoutes');
+const parcelRoutes = require('./routes/parcelRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -61,6 +63,10 @@ app.use('/api/visitors', visitorRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/users', adminRoutes);
+app.use('/api/polls', pollRoutes);
+app.use('/api/invoices', invoiceRoutes);
+app.use('/api/emergency', emergencyRoutes);
+app.use('/api/parcels', parcelRoutes);
 
 const PORT = process.env.PORT || 5000;
 

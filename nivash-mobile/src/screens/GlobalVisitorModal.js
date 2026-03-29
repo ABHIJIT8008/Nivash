@@ -4,8 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axiosConfig';
 import io from 'socket.io-client';
-
-const SOCKET_URL = 'http://192.168.1.4:5000'; // ⚠️ PUT YOUR REAL IP HERE!
+import { SOCKET_URL } from '../config';
+ 
 
 const GlobalVisitorModal = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +13,6 @@ const GlobalVisitorModal = () => {
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
-    // Only connect and listen if the user is a logged-in resident (Owner)
     if (!user || user.role !== 'Owner') return;
 
     const socket = io(SOCKET_URL);
@@ -21,7 +20,7 @@ const GlobalVisitorModal = () => {
     socket.on('connect', () => {
       console.log('🌐 Global Modal Connected to Socket');
       if (user?.flat_id) {
-        socket.emit('join_flat_room', user.flat_id._id || user.flat_id); // Handles both populated and raw IDs
+        socket.emit('join_flat_room', user.flat_id._id || user.flat_id); 
       }
     });
 
@@ -45,9 +44,7 @@ const GlobalVisitorModal = () => {
     }
   };
 
-  // If there's no visitor waiting, render absolutely nothing
   if (!incomingVisitor) return null;
-
   return (
     <Modal visible={true} animationType="fade" transparent={true}>
       <View style={styles.modalOverlay}>

@@ -12,12 +12,9 @@ import {
   SafeAreaView,
   RefreshControl
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // <-- NEW ICONS
+import { Ionicons } from '@expo/vector-icons'; 
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axiosConfig';
-import io from 'socket.io-client';
-
-const SOCKET_URL = 'http://192.168.1.4:5000'; // ⚠️ Keep your actual IP here!
 
 const HomeScreen = () => {
   const { user, logout } = useContext(AuthContext);

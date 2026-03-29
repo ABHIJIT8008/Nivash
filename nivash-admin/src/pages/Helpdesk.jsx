@@ -44,7 +44,6 @@ const Helpdesk = () => {
     }
   };
 
-  // Helper function to render beautiful status badges
   const renderStatusBadge = (status) => {
     switch (status) {
       case 'Resolved':

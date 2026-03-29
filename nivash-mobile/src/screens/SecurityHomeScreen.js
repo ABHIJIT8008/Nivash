@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { 
   View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, 
   ActivityIndicator, Image, SafeAreaView, KeyboardAvoidingView, 
-  Platform, ScrollView, StatusBar // <-- Added StatusBar
+  Platform, ScrollView, StatusBar 
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Picker } from '@react-native-picker/picker';
@@ -10,21 +10,22 @@ import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axiosConfig';
 import io from 'socket.io-client';
-
-const SOCKET_URL = 'http://192.168.1.4:5000'; // ⚠️ Your IP here
+import { SOCKET_URL } from '../config';
+ 
 const CLOUDINARY_UPLOAD_PRESET = 'nivash_visitors';
 const CLOUDINARY_CLOUD_NAME = 'dhljl4vr4';
 
 const SecurityHomeScreen = () => {
   const { user, logout } = useContext(AuthContext);
+  
   const [permission, requestPermission] = useCameraPermissions();
+  
   const [photoUri, setPhotoUri] = useState(null);
   const [visitorName, setVisitorName] = useState('');
   const [selectedFlat, setSelectedFlat] = useState('');
   const [flats, setFlats] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // --- NEW: LIVE QUEUE STATE ---
   const [recentLogs, setRecentLogs] = useState([]);
   const cameraRef = useRef(null);
 
@@ -39,20 +40,17 @@ const SecurityHomeScreen = () => {
     fetchFlats();
   }, []);
 
-  // --- UPDATED SOCKET LOGIC ---
   useEffect(() => {
     const socket = io(SOCKET_URL);
     socket.on('connect', () => console.log('🛡️ Guard Connected to Socket Server'));
 
     socket.on('visitor_status_updated', (updatedVisitor) => {
-      // 1. Update the live queue on the screen
       setRecentLogs(prevLogs => 
         prevLogs.map(log => 
           log.visitor_name === updatedVisitor.visitor_name ? { ...log, status: updatedVisitor.status } : log
         )
       );
 
-      // 2. Alert the guard
       if (updatedVisitor.status === 'Approved') {
         Alert.alert('✅ ACCESS GRANTED', `Resident approved entry for ${updatedVisitor.visitor_name}.`);
       } else if (updatedVisitor.status === 'Denied') {
@@ -97,7 +95,6 @@ const SecurityHomeScreen = () => {
         photo_url: cloudinaryData.secure_url
       });
 
-      // Add to the top of our local live feed as "Pending"
       const flatDetails = flats.find(f => f._id === selectedFlat);
       setRecentLogs([{ 
         id: Date.now(), 
@@ -115,8 +112,28 @@ const SecurityHomeScreen = () => {
     }
   };
 
-  if (!permission) return <View style={styles.center}><ActivityIndicator /></View>;
-  if (!permission.granted) return <View style={styles.center}><Text>Need Camera Permission</Text></View>;
+  // --- THE FIX: Proper Permission Handling UI ---
+  if (!permission) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#007bff" />
+      </View>
+    );
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.center}>
+        <Text style={{ textAlign: 'center', marginBottom: 20, fontSize: 16, color: '#333' }}>
+          We need your permission to use the camera to log incoming visitors.
+        </Text>
+        <TouchableOpacity style={styles.primaryButton} onPress={requestPermission}>
+          <Text style={styles.buttonText}>Grant Camera Permission</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+  // ----------------------------------------------
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -172,7 +189,6 @@ const SecurityHomeScreen = () => {
             </TouchableOpacity>
           </View>
 
-          {/* --- NEW: LIVE STATUS FEED --- */}
           <View style={styles.feedContainer}>
             <Text style={styles.sectionTitle}>Live Queue</Text>
             {recentLogs.length === 0 ? (
@@ -201,9 +217,8 @@ const SecurityHomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  // FIX: Added dynamic padding for Android Notches
   safeArea: { flex: 1, backgroundColor: '#f8f9fa', paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }, // Added padding here for the new permission UI
   container: { flexGrow: 1, padding: 20 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', padding: 15, borderBottomWidth: 1, borderBottomColor: '#eee' },
   headerTextContainer: { flex: 1 },
@@ -225,10 +240,9 @@ const styles = StyleSheet.create({
   input: { flex: 1, paddingVertical: 15 },
   pickerWrapper: { flex: 1 },
   picker: { width: '100%', height: 50 },
-  primaryButton: { backgroundColor: '#007bff', paddingVertical: 16, borderRadius: 12, alignItems: 'center', marginTop: 5 },
+  primaryButton: { backgroundColor: '#007bff', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, alignItems: 'center', marginTop: 5 },
   buttonText: { color: '#fff', fontSize: 17, fontWeight: 'bold' },
   
-  // New Feed Styles
   feedContainer: { paddingBottom: 20 },
   emptyFeedText: { color: '#888', fontStyle: 'italic', textAlign: 'center' },
   feedCard: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', padding: 15, borderRadius: 12, marginBottom: 10, borderWidth: 1, borderColor: '#eee' },
