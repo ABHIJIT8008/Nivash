@@ -16,7 +16,9 @@ const protect = async (req, res, next) => {
 
       // Get user from the token's ID, but don't return the password hash
       req.user = await User.findById(decoded.id).select('-password_hash');
-
+      if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized, user no longer exists' });
+      }
       next(); // Pass control to the next middleware or controller
     } catch (error) {
       console.error(error);
