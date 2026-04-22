@@ -7,38 +7,19 @@ The server should now be running and listening on http://localhost:5000.
 
 Mobile App Setup (React Native)
 Bash
-# 1. Navigate to the mobile app directory
+# 2. Navigate to the mobile app directory
 cd mobile-app
 
-# 2. Install all required dependencies
+# 3. Install all required dependencies
 npm install
 
-# 3. Start the Metro bundler
+# 4. Start the Metro bundler
 npx react-native start
 In a new terminal window:
 
 Bash
-# 4. Compile and run the application on your connected Android device or emulator
+# 5. Compile and run the application on your connected Android device or emulator
 npx react-native run-android
-📂 Folder Structure
-Plaintext
-NIVASH/
-├── backend/
-│   ├── controllers/      # Route logic and request handling
-│   ├── models/           # Mongoose schemas (User, Flat, Visitor, Poll, Complaint)
-│   ├── routes/           # API endpoint definitions
-│   ├── middleware/       # JWT verification and RBAC checks
-│   ├── utils/            # Helper functions (Cloudinary upload, Socket instances)
-│   └── server.js         # Entry point and Express app configuration
-└── mobile-app/
-    ├── src/
-    │   ├── components/   # Reusable UI components
-    │   ├── screens/      # Main application views (Dashboard, Complaints, Gate)
-    │   ├── navigation/   # React Navigation stacks and role-based routers
-    │   ├── context/      # React Context for global state (Auth, Notifications)
-    │   └── services/     # API call functions (Axios)
-    └── App.js            # Mobile app entry point
-
 🔐 Environment Variables (.env)
 Create a .env file in the root of the backend directory. Do not commit this file to version control.
 
