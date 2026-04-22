@@ -38,6 +38,7 @@ NIVASH/
     │   ├── context/      # React Context for global state (Auth, Notifications)
     │   └── services/     # API call functions (Axios)
     └── App.js            # Mobile app entry point
+
 🔐 Environment Variables (.env)
 Create a .env file in the root of the backend directory. Do not commit this file to version control.
 
