@@ -1,11 +1,11 @@
 Open the .env file and populate it with your specific database URI and API keys (see Environment Variables section below).
 
 Bash
-# 4. Start the backend development server
+# 1. Start the backend development server
 npm run dev
 The server should now be running and listening on http://localhost:5000.
 
-3. Mobile App Setup (React Native)
+Mobile App Setup (React Native)
 Bash
 # 1. Navigate to the mobile app directory
 cd mobile-app
@@ -58,9 +58,8 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-# Payment Gateway (Optional/Mock for evaluation)
-STRIPE_SECRET_KEY=your_stripe_secret
 👥 Project Team Members
+
 Abhijit Gupta
 
 Aditya Verma
